@@ -3,3 +3,7 @@
 /PingPong/Debug
 /.vs
 /PingPong/.vs/PingPong/v16
+/**/Debug/**
+/**/Release/**
+/**/*.user
+**.user
