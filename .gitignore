@@ -6,4 +6,4 @@
 /**/Debug/**
 /**/Release/**
 /**/*.user
-**.user
+*.user
