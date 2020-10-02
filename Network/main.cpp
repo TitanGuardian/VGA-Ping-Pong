@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Fract_N_bit.h"
-#include "../Zmeyka/Game.h"
 #include "Neural.h"
 #include "time.h"
 

@@ -139,11 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zmeyka\Zmeyka.vcxproj">
-      <Project>{a81863e1-c28b-43e7-b879-33261cd2e70a}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Fract_N_bit.h" />
     <ClInclude Include="Neural.h" />
   </ItemGroup>
