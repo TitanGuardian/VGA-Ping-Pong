@@ -13,5 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\test2drender">
+      <UniqueIdentifier>{04d4edbc-6e6d-4b04-b2cb-ddedf8cec662}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="test2drender\audio.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
+    <ClCompile Include="test2drender\auto.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
+    <ClCompile Include="test2drender\controller.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
+    <ClCompile Include="test2drender\testcard.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
+    <ClCompile Include="test2drender\triangle.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
+    <ClCompile Include="test2drender\triangle-ios-tvos.c">
+      <Filter>Исходные файлы\test2drender</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

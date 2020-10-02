@@ -1,6 +1,6 @@
 #include "simple2d.h"
 
-void render() {
+static void render() {
   S2D_DrawTriangle(
     320,  50, 1, 0, 0, 1,
     540, 430, 0, 1, 0, 1,
@@ -8,7 +8,7 @@ void render() {
   );
 }
 
-int main() {
+int test_triangle() {
 
   S2D_Window *window = S2D_CreateWindow(
     "Hello Triangle", 640, 480, NULL, render, 0

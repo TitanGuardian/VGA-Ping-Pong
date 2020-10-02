@@ -75,9 +75,6 @@
     <ClCompile Include="sound.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="triangle.c">
-      <Filter>temp_test</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple2d.h">
@@ -376,9 +373,6 @@
     <Library Include="lib\x64\SDL2_mixer.lib">
       <Filter>SDL2\lib</Filter>
     </Library>
-    <Library Include="lib\x64\SDL2main.lib">
-      <Filter>SDL2\lib</Filter>
-    </Library>
     <Library Include="lib\x64\SDL2test.lib">
       <Filter>SDL2\lib</Filter>
     </Library>
@@ -393,6 +387,9 @@
     </Library>
     <Library Include="lib\x64\glfw3dll.lib">
       <Filter>GL</Filter>
+    </Library>
+    <Library Include="lib\x64\SDL2main.lib">
+      <Filter>SDL2\lib</Filter>
     </Library>
   </ItemGroup>
 </Project>

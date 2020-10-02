@@ -31,7 +31,7 @@ bool mouse_click = false;
 bool rotate = false;
 
 
-void on_key(S2D_Event e) {
+static void on_key(S2D_Event e) {
   switch (e.type) {
     case S2D_KEY_DOWN:
       printf("Key down: %s\n", e.key);
@@ -51,7 +51,7 @@ void on_key(S2D_Event e) {
 }
 
 
-void print_mouse_button(int e) {
+static void print_mouse_button(int e) {
   switch (e) {
     case S2D_MOUSE_LEFT:
       puts("Button left");
@@ -72,7 +72,7 @@ void print_mouse_button(int e) {
 }
 
 
-void on_mouse(S2D_Event e) {
+static void on_mouse(S2D_Event e) {
   puts("=== Mouse Event ===");
 
   switch (e.type) {
@@ -111,7 +111,7 @@ void on_mouse(S2D_Event e) {
 }
 
 
-void on_controller(S2D_Event e) {
+static void on_controller(S2D_Event e) {
   puts("=== Controller Event ===");
   printf("Controller #%i\n", e.which);
 
@@ -132,7 +132,7 @@ void on_controller(S2D_Event e) {
 }
 
 
-void update() {
+static void update() {
   pointer.x = window->mouse.x;
   pointer.y = window->mouse.y;
 
@@ -160,7 +160,7 @@ void update() {
 }
 
 
-void render() {
+static void render() {
 
   // Primary colors
 
@@ -359,7 +359,7 @@ void render() {
 }
 
 
-int main() {
+int test_testcard() {
 
   S2D_Diagnostics(true);
 

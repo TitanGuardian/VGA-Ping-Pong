@@ -7,23 +7,23 @@ int tests = 0;
 int failures = 0;
 
 
-void start_test_suite() {
+static void start_test_suite() {
   puts("\033[1;39mStarting test suite...\033[1;39m\n");
 }
 
-void start_test(char *test) {
+static void start_test(char *test) {
   printf("\033[1;34m==>\033[1;39m Running test\033[0m %s\n", test);
   tests++;
 }
 
-void end_test(bool status) {
+static void end_test(bool status) {
   if (status == FAIL) {
     failures++;
     puts("\033[1;31m==> Test failed!\033[0m");
   }
 }
 
-void end_test_suite() {
+static void end_test_suite() {
   if (failures == 0) {
     puts("\n\033[1;32mAll tests passed!\033[0m");
   } else {
@@ -33,7 +33,7 @@ void end_test_suite() {
 }
 
 
-int main() {
+int test_auto() {
 
   // Set Up ////////////////////////////////////////////////////////////////////
 

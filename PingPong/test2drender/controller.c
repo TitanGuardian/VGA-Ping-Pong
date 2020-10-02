@@ -31,12 +31,12 @@ bool btn_MAX = false;
 
 
 // Normalize axis values to 0.0...1.0
-double to_d(int val) {
+static double to_d(int val) {
   return val > 0 ? val / 32767.0 : val / 32768.0;
 }
 
 
-void render() {
+static void render() {
 
   S2D_DrawImage(controller);
 
@@ -189,7 +189,7 @@ void render() {
 }
 
 
-void on_key(S2D_Event e) {
+static void on_key(S2D_Event e) {
   if (e.type != S2D_KEY_DOWN) return;
   if (strcmp(e.key, "Escape") == 0) {
     S2D_Close(window);
@@ -197,7 +197,7 @@ void on_key(S2D_Event e) {
 }
 
 
-void on_controller(S2D_Event e) {
+static void on_controller(S2D_Event e) {
   puts("=== Controller Event ===");
   printf("Controller #%i\n", e.which);
 
@@ -321,7 +321,7 @@ void on_controller(S2D_Event e) {
 }
 
 
-int main() {
+int test_controller() {
 
   S2D_Diagnostics(true);
 

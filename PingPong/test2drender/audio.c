@@ -10,7 +10,7 @@ S2D_Music *mus2;
 S2D_Window *window;
 
 
-void print_help() {
+static void print_help() {
   puts("");
   puts(" |-------------------------------|");
   puts(" | AUDIO TESTS KEYBOARD COMMANDS |");
@@ -38,7 +38,7 @@ void print_help() {
   puts("");
 }
 
-void on_key(S2D_Event e) {
+static void on_key(S2D_Event e) {
   if (e.type != S2D_KEY_DOWN) return;
 
   if (strcmp(e.key, "Escape") == 0) {
@@ -110,7 +110,7 @@ void on_key(S2D_Event e) {
 }
 
 
-int main() {
+int test_audio() {
 
   S2D_Diagnostics(true);
 

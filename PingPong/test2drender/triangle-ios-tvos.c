@@ -1,8 +1,8 @@
-#include <Simple2D/simple2d.h>
+#include "simple2d.h"
 
 S2D_Window *window;
 
-void render() {
+static void render() {
   S2D_DrawQuad(
     0, 0, 1, 0, 1, 1,
     window->width, 0, 0, 1, 0, 1,
@@ -16,7 +16,7 @@ void render() {
   );
 }
 
-int main() {
+int test_triangleIOS() {
 
   window = S2D_CreateWindow(
     "Hello Triangle", S2D_DISPLAY_WIDTH, S2D_DISPLAY_HEIGHT, NULL, render, 0
