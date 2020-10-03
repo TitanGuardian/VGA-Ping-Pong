@@ -9,10 +9,10 @@ extern "C" int test_controller();
 int main() {
 	/*delete comment to run specific test*/
 
-	test_auto(); // fast functional check
+	//test_auto(); // fast functional check
 	//test_triangle(); // draw triangle
 	//test_triangleIOS(); // draw fullscreen triangle (alt+f4 to exit)
 	//test_testcard(); // some action
 	//test_audio(); // sound test
-	//test_controller(); //
+	test_controller(); //
 }
