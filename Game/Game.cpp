@@ -17,12 +17,12 @@ void Game::update() {
 	ball.upDownUpdate();
 	
 	if (r1) {
-		scoreP1 += 1;
+		scoreP2 += 1;
 		reset();
 		return;
 	}
 	if (r2) {
-		scoreP2 += 1;
+		scoreP1 += 1;
 		reset();
 		return;
 	}

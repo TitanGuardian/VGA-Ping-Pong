@@ -1,5 +1,6 @@
 #include "Ball.h"
 #include "common.h"
+#include <iostream>
 
 Ball::Ball(int posX, int posY, unsigned int initDirection) : x100(posX * 100), y100(posY * 100), direction(initDirection) {
 }
@@ -97,7 +98,7 @@ int Ball::leftUpdate(Paddle& pad) {
 	int x, y;
 	x = x100 / 100;
 	y = y100 / 100;
-	if (x - size <= (pad.getX() + pad.getWidth())) {
+	if ((x - size <= (pad.getX() + pad.getWidth())) && (direction > 1800 && direction < 3600)) {
 		if ((y + size >= (pad.getY() - pad.getSize())) && (y - size <= (pad.getY() + pad.getSize()))) {
 			
 			if (y < (pad.getY() - pad.getSize())) {
@@ -132,11 +133,14 @@ int Ball::leftUpdate(Paddle& pad) {
 			else if (position < 7 * cl_size + 1) {
 				cluster_number = 3;
 			}
+
+			std::cout << "Hit P1 " << direction<< " " << reverseX(direction) << " " << cluster_number;
+			std::cout << " " << direction;
 			int k = reverseX(direction);
 			direction = k + cluster_number * 225;
 			if (direction >= 1800) direction = 1575;
 			else if (direction <= 0) direction = 225;
-
+			std::cout << " " << direction << std::endl;
 			return 0;
 		}
 		else {
@@ -150,7 +154,7 @@ int Ball::rightUpdate(Paddle& pad) {
 	int x, y;
 	x = x100 / 100;
 	y = y100 / 100;
-	if (x + size >= (pad.getX() - pad.getWidth())) {
+	if ((x + size >= (pad.getX() - pad.getWidth()))&&(direction>0&&direction<1800)) {
 		if ((y + size >= (pad.getY() - pad.getSize())) && (y - size <= (pad.getY() + pad.getSize()))) {
 
 			if (y < (pad.getY() - pad.getSize())) {
@@ -186,9 +190,13 @@ int Ball::rightUpdate(Paddle& pad) {
 				cluster_number = 3;
 			}
 
+			std::cout << "Hit P2 " << direction << " " << reverseX(direction) << " " << cluster_number;
 			direction = reverseX(direction) - cluster_number * 225;
+			std::cout << " " << direction;
 			if (direction >= 3600) direction = 3375;
 			else if (direction <= 1800) direction = 2025;
+			std::cout << " " << direction << std::endl;
+			
 
 			return 0;
 		}

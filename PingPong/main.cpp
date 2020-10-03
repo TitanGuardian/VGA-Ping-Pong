@@ -15,8 +15,14 @@
 //extern "C" int test_controller();
 
 #include <thread>
+#include <string>
+Game* volatile renderingGame;
 
-Game* renderingGame;
+const char* font = "media/bitstream_vera/vera.ttf";
+int font_size = 20;
+S2D_Text* txt_P1;
+S2D_Text* txt_P2;
+char txt[50];
 
 static void render_main() {
 
@@ -48,6 +54,12 @@ static void render_main() {
 		pd2.getX() - pd2.getWidth(), pd2.getY() + pd2.getSize(), 1, 0, 0, 1,
 		pd2.getX() - pd2.getWidth(), pd2.getY() - pd2.getSize(), 1, 0, 0, 1
 	);
+
+	S2D_SetText(txt_P1, "%d", renderingGame->getScoreP1());
+	S2D_DrawText(txt_P1);
+
+	S2D_SetText(txt_P2, "%d", renderingGame->getScoreP2());
+	S2D_DrawText(txt_P2);
 
 }
 
@@ -85,7 +97,26 @@ int window_thread() {
 		"Hello PingPong", 640, 480, NULL, render_main, 0
 	);
 	window->on_key = on_key;
+
+	txt_P1 = S2D_CreateText(font, "", font_size);
+	txt_P1->x = 50;
+	txt_P1->y = 100;
+	txt_P1->color.r = 1.0;
+	txt_P1->color.g = 0.0;
+	txt_P1->color.b = 0.0;
+	txt_P1->color.a = 1.0;
+
+	txt_P2 = S2D_CreateText(font, "", font_size);
+	txt_P2->x = RESOLUTION_X - 75;
+	txt_P2->y = 100;
+	txt_P2->color.r = 1.0;
+	txt_P2->color.g = 0.0;
+	txt_P2->color.b = 0.0;
+	txt_P2->color.a = 1.0;
+
 	S2D_Show(window);
+
+	S2D_FreeWindow(window);
 	return 0;
 }
 
@@ -93,11 +124,11 @@ int main(int argc, char**argv) {
 	Game game;
 	srand(time(0));
 	renderingGame = &game;
-	std::thread thread(window_thread); // Pass 10 to functor object
+	std::thread thread(window_thread); 
 	while (true) {
 		game.update();
-		LOG_SCORE(game);
-		LOG(game.getBall().getDirection());
+		//LOG_SCORE(game);
+		//LOG(game.getBall().getDirection());
 		Sleep(10);
 	}
 
