@@ -12,17 +12,17 @@ private:
 	Paddle paddleRight;
 	int scoreP1 = 0;
 	int scoreP2 = 0;
-	int moveSpeed = 10;
+	int moveSpeed = 5;
 public:
 	Game();
 	void reset();
 	void update();
 	void onInputP1(int direction = 0);
 	void onInputP2(int direction = 0);
-	inline Ball getBall() const;
-	inline Paddle getPaddleP1() const;
-	inline Paddle getPaddleP2() const;
-	inline int getScoreP1() const;
-	inline int getScoreP2() const;
+	Ball getBall() const;
+	Paddle getPaddleP1() const;
+	Paddle getPaddleP2() const;
+	int getScoreP1() const;
+	int getScoreP2() const;
 };
 

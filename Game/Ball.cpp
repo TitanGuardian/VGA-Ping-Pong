@@ -1,46 +1,48 @@
 #include "Ball.h"
 #include "common.h"
 
-Ball::Ball(int posX, int posY, unsigned int initDirection) : x100(posX * 100), y100(posY * 100), direction(initDirection) {}
+Ball::Ball(int posX, int posY, unsigned int initDirection) : x100(posX * 100), y100(posY * 100), direction(initDirection) {
+}
 
-Ball::Ball() {}
+Ball::Ball() {
+}
 
 void Ball::changeDirection(unsigned int newDirection) {
 	direction = newDirection;
 	if (newDirection == 0 || newDirection == 1800) throw;
 }
 
-inline int Ball::getX() const {
+int Ball::getX() const {
 	return x100 / 100; 
 }
 
-inline int Ball::getY() const {
+int Ball::getY() const {
 	return y100 / 100; 
 }
-inline int Ball::getDirection() const {
+int Ball::getDirection() const {
 	return direction; 
 }
 
-inline int Ball::getSize() const {
+int Ball::getSize() const {
 	return size;
 }
 
 void Ball::move() {
 	switch (direction) {
-	case  225: y100 += 75; x100 +=  25; break;
-	case  450: y100 += 50; x100 +=  50; break;
-	case  675: y100 += 25; x100 +=  75; break;
-	case  900: y100 +=  0; x100 += 100; break;
-	case 1125: y100 -= 25; x100 +=  75; break;
-	case 1350: y100 -= 50; x100 +=  50; break;
-	case 1575: y100 -= 75; x100 +=  25; break;
-	case 2025: y100 -= 75; x100 -=  25; break;
-	case 2250: y100 -= 50; x100 -=  50; break;
-	case 2475: y100 -= 25; x100 -=  75; break;
-	case 2700: y100 +=  0; x100 -= 100; break;
-	case 2925: y100 += 25; x100 -=  75; break;
-	case 3150: y100 += 50; x100 -=  50; break;
-	case 3375: y100 += 75; x100 -=  25; break;
+	case  225: y100 -= 75 * moveSpeed; x100 +=  25 * moveSpeed; break;
+	case  450: y100 -= 50 * moveSpeed; x100 += 50  * moveSpeed; break;
+	case  675: y100 -= 25 * moveSpeed; x100 += 75  * moveSpeed; break;
+	case  900: y100 += 0  * moveSpeed; x100 += 100 * moveSpeed; break;
+	case 1125: y100 += 25 * moveSpeed; x100 += 75  * moveSpeed; break;
+	case 1350: y100 += 50 * moveSpeed; x100 += 50  * moveSpeed; break;
+	case 1575: y100 += 75 * moveSpeed; x100 += 25  * moveSpeed; break;
+	case 2025: y100 += 75 * moveSpeed; x100 -= 25  * moveSpeed; break;
+	case 2250: y100 += 50 * moveSpeed; x100 -= 50  * moveSpeed; break;
+	case 2475: y100 += 25 * moveSpeed; x100 -= 75  * moveSpeed; break;
+	case 2700: y100 += 0  * moveSpeed; x100 -= 100 * moveSpeed; break;
+	case 2925: y100 -= 25 * moveSpeed; x100 -= 75  * moveSpeed; break;
+	case 3150: y100 -= 50 * moveSpeed; x100 -= 50  * moveSpeed; break;
+	case 3375: y100 -= 75 * moveSpeed; x100 -= 25  * moveSpeed; break;
 	default: throw;
 	}
 }
@@ -98,9 +100,16 @@ int Ball::leftUpdate(Paddle& pad) {
 	if (x - size <= (pad.getX() + pad.getWidth())) {
 		if ((y + size >= (pad.getY() - pad.getSize())) && (y - size <= (pad.getY() + pad.getSize()))) {
 			
-			int position = pad.getY() - pad.getSize();
+			if (y < (pad.getY() - pad.getSize())) {
+				y = pad.getY() - pad.getSize();
+			}
+			else if (y > (pad.getY() + pad.getSize())) {
+				y = (pad.getY() + pad.getSize());
+			}
+
+			int position = y - (pad.getY() - pad.getSize());
 			int cl_size = 2 * pad.getSize() / 7;
-			int cluster_number;
+			int cluster_number=0;
 
 			if (position < cl_size) {
 				cluster_number = -3;
@@ -123,8 +132,8 @@ int Ball::leftUpdate(Paddle& pad) {
 			else if (position < 7 * cl_size + 1) {
 				cluster_number = 3;
 			}
-
-			direction = reverseX(direction) + 3 * 225;
+			int k = reverseX(direction);
+			direction = k + cluster_number * 225;
 			if (direction >= 1800) direction = 1575;
 			else if (direction <= 0) direction = 225;
 
@@ -134,6 +143,7 @@ int Ball::leftUpdate(Paddle& pad) {
 			return 1;
 		}
 	}
+	return 0;
 }
 
 int Ball::rightUpdate(Paddle& pad) {
@@ -143,33 +153,40 @@ int Ball::rightUpdate(Paddle& pad) {
 	if (x + size >= (pad.getX() - pad.getWidth())) {
 		if ((y + size >= (pad.getY() - pad.getSize())) && (y - size <= (pad.getY() + pad.getSize()))) {
 
-			int position = pad.getY() - pad.getSize();
+			if (y < (pad.getY() - pad.getSize())) {
+				y = pad.getY() - pad.getSize();
+			}
+			else if (y > (pad.getY() + pad.getSize())) {
+				y = (pad.getY() + pad.getSize());
+			}
+
+			int position = y - (pad.getY() - pad.getSize());
 			int cl_size = 2 * pad.getSize() / 7;
-			int cluster_number;
+			int cluster_number = 0;
 
 			if (position < cl_size) {
-				cluster_number = 3;
+				cluster_number = -3;
 			}
 			else if (position < 2 * cl_size) {
-				cluster_number = 2;
+				cluster_number = -2;
 			}
 			else if (position < 3 * cl_size) {
-				cluster_number = 1;
+				cluster_number = -1;
 			}
 			else if (position < 4 * cl_size + 1) {
 				cluster_number = 0;
 			}
 			else if (position < 5 * cl_size + 1) {
-				cluster_number = -1;
+				cluster_number = 1;
 			}
 			else if (position < 6 * cl_size + 1) {
-				cluster_number = -2;
+				cluster_number = 2;
 			}
 			else if (position < 7 * cl_size + 1) {
-				cluster_number = -3;
+				cluster_number = 3;
 			}
 
-			direction = reverseX(direction) + 3 * 225;
+			direction = reverseX(direction) - cluster_number * 225;
 			if (direction >= 3600) direction = 3375;
 			else if (direction <= 1800) direction = 2025;
 
@@ -179,6 +196,7 @@ int Ball::rightUpdate(Paddle& pad) {
 			return 1;
 		}
 	}
+	return 0;
 }
 
 void Ball::upDownUpdate() {

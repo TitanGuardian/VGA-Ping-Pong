@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Game\Game.vcxproj">
+      <Project>{920cd3db-3d3f-4187-b240-f6fb6a8e8658}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Simple2DRender\Simple2DRender.vcxproj">
       <Project>{fc78091c-055b-4418-92c2-25b0ed82c514}</Project>
     </ProjectReference>
@@ -130,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Simple2DRender</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Simple2DRender; ../Game</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Simple2DRender</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Simple2DRender; ../Game</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

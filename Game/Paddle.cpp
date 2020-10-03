@@ -23,9 +23,10 @@ void Paddle::do_move() {
 void Paddle::reset(int _x, int _y) {
 	x = _x;
 	y = _y;
+	step = 0;
 }
 
-inline int Paddle::getX() const { return x; }
-inline int Paddle::getY() const { return y; }
-inline int Paddle::getSize() const { return size; }
-inline int Paddle::getWidth() const { return width; }
+int Paddle::getX() const { return x; }
+int Paddle::getY() const { return y; }
+int Paddle::getSize() const { return size; }
+int Paddle::getWidth() const { return width; }

@@ -6,8 +6,8 @@ private:
 	/*position of center*/
 	int x;
 	int y;
-	int size = 100; // must be multiple of 7
-	int width = 10; 
+	int size = 49; // must be multiple of 7
+	int width = 3; 
 	int step;
 public:
 	Paddle(int _x, int _y);
@@ -18,9 +18,9 @@ public:
 	void move(int new_step);
 	void do_move();
 
-	inline int getX() const;
-	inline int getY() const;
-	inline int getSize() const;
-	inline int getWidth() const;
+	int getX() const;
+	int getY() const;
+	int getSize() const;
+	int getWidth() const;
 };
 
