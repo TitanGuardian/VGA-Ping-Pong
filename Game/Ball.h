@@ -7,12 +7,12 @@ class Ball
 private:
 	int x100, y100;
 	int size = 5; 
-	unsigned int direction; // range(0,3600,225) degrees*10
+	int direction; // range(0,3600,225) degrees*10
 	const int moveSpeed = 6;
 public:
 	Ball();
-	Ball(int posX, int posY, unsigned int initDirection);
-	void changeDirection(unsigned int newDirection);
+	Ball(int posX, int posY, int initDirection);
+	void changeDirection(int newDirection);
 	int getX() const;
 	int getY() const;
 	int getDirection() const;

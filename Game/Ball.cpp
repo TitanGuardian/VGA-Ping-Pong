@@ -2,13 +2,13 @@
 #include "common.h"
 //#include <iostream>
 
-Ball::Ball(int posX, int posY, unsigned int initDirection) : x100(posX * 100), y100(posY * 100), direction(initDirection) {
+Ball::Ball(int posX, int posY, int initDirection) : x100(posX * 100), y100(posY * 100), direction(initDirection) {
 }
 
 Ball::Ball() {
 }
 
-void Ball::changeDirection(unsigned int newDirection) {
+void Ball::changeDirection(int newDirection) {
 	direction = newDirection;
 	if (newDirection == 0 || newDirection == 1800) throw;
 }
