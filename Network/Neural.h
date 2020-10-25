@@ -39,3 +39,4 @@ struct NeuralNetwork {
 	int compute(const Input& input);
 };
 
+NeuralNetwork_info random_NN();
