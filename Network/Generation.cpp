@@ -2,11 +2,12 @@
 #include "Game.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 void Generation::evalAsP1(const NeuralNetwork_info player2) {
 	for (int i = 0; i < size; ++i) {
-		NeuralNetwork nn(agents[i], 5), nn_opposite(player2, 5);
-		scores[i] = 0;
+		NeuralNetwork nn(agents[i].info, 5), nn_opposite(player2, 5);
+		agents[i].score = 1000;
 		Game game;
 		while (game.getTurns() <= 1000) {
 			Input nn_in(5, 0);
@@ -37,9 +38,8 @@ void Generation::evalAsP1(const NeuralNetwork_info player2) {
 
 			game.update();
 
-
 			if (game.getStatus()) {
-				scores[i] = game.getScoreP1() - game.getScoreP2();
+				agents[i].score = game.getTurns(); // game.getScoreP1() - game.getScoreP2();
 				break;
 			}
 		}
@@ -48,8 +48,8 @@ void Generation::evalAsP1(const NeuralNetwork_info player2) {
 
 void Generation::evalAsP2(const NeuralNetwork_info player1) {
 	for (int i = 0; i < size; ++i) {
-		NeuralNetwork nn(agents[i], 5), nn_opposite(player1, 5);
-		scores[i] = 0;
+		NeuralNetwork nn(agents[i].info, 5), nn_opposite(player1, 5);
+		agents[i].score = 1000;
 		Game game;
 		while (game.getTurns() <= 1000) {
 			Input nn_in(5, 0);
@@ -81,7 +81,7 @@ void Generation::evalAsP2(const NeuralNetwork_info player1) {
 			game.update();
 
 			if (game.getStatus()) {
-				scores[i] = game.getScoreP2() - game.getScoreP1();
+				agents[i].score = game.getTurns();  // game.getScoreP2() - game.getScoreP1();
 				break;
 			}
 		}
@@ -89,9 +89,8 @@ void Generation::evalAsP2(const NeuralNetwork_info player1) {
 }
 
 Generation::Generation(int size) : agents(size), size(size), epoch(0) {
-	srand(286);
 	for (int i = 0; i < size; ++i) {
-		agents[i] = random_NN();
+		agents[i].info = random_NN();
 	}
 }
 Generation::Generation(const Generation&) = default;
@@ -102,7 +101,7 @@ void Generation::save(std::string fileName) {
 	file.open(fileName.c_str());
 	file << epoch << " " << size << "\n";
 	for (auto& agent : agents) {
-		for (auto& layer : agent) {
+		for (auto& layer : agent.info) {
 			for (auto& neuron : layer) {
 				for (auto& weight : neuron.weights) {
 					file << weight << " ";
@@ -122,7 +121,7 @@ void Generation::load(std::string fileName) {
 	file >> epoch >> size;
 	int tmp;
 	for (auto& agent : agents) {
-		for (auto& layer : agent) {
+		for (auto& layer : agent.info) {
 			for (auto& neuron : layer) {
 				for (auto& weight : neuron.weights) {
 					file >> tmp;
@@ -134,4 +133,62 @@ void Generation::load(std::string fileName) {
 		}
 	}
 	file.close();
+}
+
+
+void Generation::sort() {
+	std::sort(agents.begin(), agents.end(), [](Agent const& a, Agent& b) {return a.score > b.score; });
+}
+
+void Generation::nextEpoch() {
+	sort();
+	//top 10 parents
+	std::vector<Agent> Parents{ agents.at(0),
+								agents.at(1),
+								agents.at(2),
+								agents.at(3),
+								agents.at(4),
+								agents.at(5),
+								agents.at(6),
+								agents.at(7),
+								agents.at(8),
+								agents.at(9)
+								};
+
+	for (int i = 0; i < agents.size(); ++i) {
+		for (int j = 0; j < agents[i].info.size(); ++j) {
+			for (int k = 0; k < agents[i].info[j].size(); ++k) {
+				for (int l = 0; l < agents[i].info[j][k].weights.size(); ++l) {
+					int TempSelection = rand() % Parents.size();
+					agents[i].info[j][k].weights[l] = Parents.at(TempSelection).info[j][k].weights[l];
+
+					if (rand() % 1000 < mutationRate) { agents[i].info[j][k].weights[l] = Data_t(rand() % 512 - 128); }
+				}
+				int TempSelection = rand() % Parents.size();
+				agents[i].info[j][k].bias = Parents.at(TempSelection).info[j][k].bias;
+				if (rand() % 1000 < mutationRate) { agents[i].info[j][k].bias = Data_t(rand() % 512 - 128); }
+			}
+		}
+	}
+
+	++epoch;
+}
+
+void Generation::printScores() {
+	std::vector<Agent> Parents{ agents.at(0),
+							agents.at(1),
+							agents.at(2),
+							agents.at(3),
+							agents.at(4),
+							agents.at(5),
+							agents.at(6),
+							agents.at(7),
+							agents.at(8),
+							agents.at(9)
+	};
+
+	for (auto& el : Parents) {
+		std::cout << el.score << " ";
+	}
+	std::cout << std::endl;
 }

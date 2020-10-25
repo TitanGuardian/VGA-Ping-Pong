@@ -62,7 +62,7 @@ void Game::reset() {
 	else {
 		direction = 225 * (i + 2);
 	}
-	direction = 900;
+
 	ball.reset(RESOLUTION_X / 2, RESOLUTION_Y / 2, direction);
 	paddleLeft.reset(30, RESOLUTION_Y / 2);
 	paddleRight.reset(RESOLUTION_X-31, RESOLUTION_Y / 2);
