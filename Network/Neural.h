@@ -33,7 +33,9 @@ struct Layer {
 struct NeuralNetwork {
 	std::vector<Layer> layers;
 	unsigned int input_size;
+	NeuralNetwork_info info;
 	NeuralNetwork(const NeuralNetwork_info& info, unsigned int input_size);
+	NeuralNetwork();
 	int compute(const Input& input);
 };
 

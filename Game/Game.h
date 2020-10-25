@@ -13,6 +13,9 @@ private:
 	int scoreP1 = 0;
 	int scoreP2 = 0;
 	int moveSpeed = 5;
+	int status = 0;
+	int turns = 0;
+	bool scoreChange = false;
 public:
 	Game();
 	void reset();
@@ -24,5 +27,8 @@ public:
 	Paddle getPaddleP2() const;
 	int getScoreP1() const;
 	int getScoreP2() const;
+	int getStatus() const;
+	int getTurns() const;
+	int getScoreChange();
 };
 

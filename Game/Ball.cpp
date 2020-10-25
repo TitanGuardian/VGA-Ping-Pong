@@ -140,7 +140,7 @@ int Ball::leftUpdate(Paddle& pad) {
 			if (direction >= 1800) direction = 1575;
 			else if (direction <= 0) direction = 225;
 			//std::cout << " " << direction << std::endl;
-			return 0;
+			return 2;
 		}
 		else {
 			return 1;
@@ -195,7 +195,7 @@ int Ball::rightUpdate(Paddle& pad) {
 			if (direction >= 3600) direction = 3375;
 			else if (direction <= 1800) direction = 2025;
 			//std::cout << " " << direction << std::endl;
-			return 0;
+			return 2;
 		}
 		else {
 			return 1;

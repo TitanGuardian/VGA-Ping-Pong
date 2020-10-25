@@ -16,18 +16,40 @@ void Game::update() {
 	r2 = ball.rightUpdate(paddleRight);
 	ball.upDownUpdate();
 	
-	if (r1) {
+	if (r1==1) {
 		scoreP2 += 1;
+		scoreChange = true;
 		reset();
 		return;
 	}
-	if (r2) {
+	if (r2==1) {
 		scoreP1 += 1;
+		scoreChange = true;
 		reset();
 		return;
 	}
-	ball.move();
+	if (r1 == 2 || r2 == 2) ++turns;
+	if (scoreP1 > 10) status = 1;
+	if (scoreP2 > 10) status = 2;
+	if (!status) ball.move();
 }
+
+int Game::getStatus() const {
+	return status;
+}
+
+int Game::getTurns() const {
+	return turns;
+}
+
+int Game::getScoreChange() {
+	if (scoreChange) {
+		scoreChange = false;
+		return true;
+	}
+	return false;
+}
+
 
 void Game::reset() {
 	int direction;

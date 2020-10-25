@@ -12,11 +12,14 @@ Layer::Layer(const Layer_info& info) {
 	}
 }
 
-NeuralNetwork::NeuralNetwork(const NeuralNetwork_info& info, unsigned int input_size): input_size(input_size) {
+NeuralNetwork::NeuralNetwork(const NeuralNetwork_info& info, unsigned int input_size): input_size(input_size), info(info) {
 	for (auto& el : info) {
 		layers.push_back(el);
 	}
 }
+
+NeuralNetwork::NeuralNetwork() = default;
+
 
 int NeuralNetwork::compute(const Input& input) {
 	auto current_computation = input;
