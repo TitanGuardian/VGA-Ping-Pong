@@ -3,8 +3,7 @@
 #include<cstdint>
 
 template<int Bits>
-class Fract_N_bit
-{
+class Fract_N_bit {
 	struct data_t {
 		int64_t data : Bits;
 
@@ -15,11 +14,11 @@ class Fract_N_bit
 			data = 0;
 		}
 	};
-	data_t data; // Bits bits bit field :)
-	const uint64_t MAX=(((uint64_t)1 << (Bits-1)) - 1);
-	const uint64_t MIN=( (uint64_t)(int64_t(-1)) << (Bits-1));
-	const int64_t RND = (1<<(Bits-2));
+	data_t data; // Bits-bit bit-field :)
 public:
+	static const uint64_t MAX=(((uint64_t)1 << (Bits-1)) - 1);
+	static const uint64_t MIN=( (uint64_t)(int64_t(-1)) << (Bits-1));
+	static const int64_t RND = (1<<(Bits-2));
 	Fract_N_bit(int64_t value) {
 		if (value > int64_t(MAX)) 
 			data = MAX;

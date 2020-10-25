@@ -18,7 +18,6 @@ NeuralNetwork::NeuralNetwork(const NeuralNetwork_info& info, unsigned int input_
 	}
 }
 
-
 int NeuralNetwork::compute(const Input& input) {
 	auto current_computation = input;
 	for (auto& layer : this->layers) {
@@ -40,7 +39,7 @@ Data_t Neuron::compute(const Input& input) {
 	for (int i = 0; i < input.size(); ++i) {
 		sum.MUL_ADD_ACC(this->values.weights[i], input[i], this->values.bias);
 	}
-	return sum;
+	return sum>0?Data_t::MIN:Data_t::MAX;
 }
 
 Neuron_info::Neuron_info() : bias(0) {}

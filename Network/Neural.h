@@ -11,8 +11,7 @@ using NeuralNetwork_info = std::vector<Layer_info>; // NN configuration weights,
 using Input = std::vector<Data_t>;
 using Output = Input;
 
-struct Neuron_info
-{
+struct Neuron_info {
 	NeuronWeights weights;
 	Data_t bias;
 	Neuron_info();
@@ -31,8 +30,7 @@ struct Layer {
 };
 
 //ARGMAX at end
-struct NeuralNetwork
-{
+struct NeuralNetwork {
 	std::vector<Layer> layers;
 	unsigned int input_size;
 	NeuralNetwork(const NeuralNetwork_info& info, unsigned int input_size);
