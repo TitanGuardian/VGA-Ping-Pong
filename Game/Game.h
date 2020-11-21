@@ -12,7 +12,7 @@ private:
 	Paddle paddleRight;
 	int scoreP1 = 0;
 	int scoreP2 = 0;
-	int moveSpeed = 5;
+	int moveSpeed = 3;
 	int status = 0;
 	int turns = 0;
 	bool scoreChange = false;

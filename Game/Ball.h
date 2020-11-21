@@ -8,7 +8,7 @@ private:
 	int x100, y100;
 	int size = 5; 
 	int direction; // range(0,3600,225) degrees*10
-	const int moveSpeed = 6;
+	const int moveSpeed = 7;
 public:
 	Ball();
 	Ball(int posX, int posY, int initDirection);

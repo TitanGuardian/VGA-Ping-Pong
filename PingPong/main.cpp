@@ -70,9 +70,10 @@ static void on_key(S2D_Event e) {
 	switch (e.type) {
 	case S2D_KEY_DOWN:
 		if (strcmp(e.key, "W") == 0) renderingGame->onInputP1(-1);
-		if (strcmp(e.key, "S") == 0) renderingGame->reset();
+		if (strcmp(e.key, "S") == 0) renderingGame->onInputP1(1);
 		if (strcmp(e.key, "Up") == 0) renderingGame->onInputP2(-1);
 		if (strcmp(e.key, "Down") == 0) renderingGame->onInputP2(1);
+		if (strcmp(e.key, "R") == 0) renderingGame->reset();
 		break;
 	case S2D_KEY_HELD:
 		if (strcmp(e.key, "W") == 0) renderingGame->onInputP1(-1);
@@ -127,7 +128,7 @@ int window_thread() {
 int main(int argc, char** argv) {
 
 	Generation genP1(100), genP2(100);
-
+	std::cout << "Write command:\n";
 	std::string inp;
 	int train_size;
 	std::cin >> inp;
@@ -135,19 +136,16 @@ int main(int argc, char** argv) {
 		genP1.load("genP1.txt");
 		genP2.load("genP2.txt");
 	}
+
 	if (inp == "t" || inp == "lt") {
 		std::cin >> train_size;
+		genP2.evalAsP2(genP1);
+		genP1.evalAsP1(genP2);
+
+		genP1.sort();
+		genP2.sort();
 		for (int i = 0; i < train_size; ++i) {
 			std::cout << "Generation " << i << "\n";
-
-			genP1.sort();
-			genP2.sort();
-
-			genP2.evalAsP2(genP1.agents[0].info);
-			genP1.evalAsP1(genP2.agents[0].info);
-
-			genP1.sort();
-			genP2.sort();
 
 			genP1.printScores();
 			genP2.printScores();
@@ -155,16 +153,22 @@ int main(int argc, char** argv) {
 			genP1.nextEpoch();
 			genP2.nextEpoch();
 
+			genP2.evalAsP2(genP1);
+			genP1.evalAsP1(genP2);
+
+			genP1.sort();
+			genP2.sort();
+			
 			std::cout << "Saving!!!" << "\n";
 			genP1.save("genP1.txt");
 			genP2.save("genP2.txt");
 		}
-	}
-	genP2.evalAsP2(genP1.agents[0].info);
-	genP1.evalAsP1(genP2.agents[0].info);
 
-	genP1.sort();
-	genP2.sort();
+	}
+	std::cout << "Current scores " << "\n";
+	genP1.printScores();
+	genP2.printScores();
+
 	NeuralNetwork nnP1(genP1.agents[0].info,5), nnP2(genP2.agents[0].info, 5);
 
 	std::thread thread(window_thread);
@@ -176,11 +180,11 @@ int main(int argc, char** argv) {
 		while (true) {
 			Input nn_in(5, 0);
 			int nn_outP1, nn_outP2;
-			nn_in[0] = Data_t(game.getBall().getDirection() * 256 / 3600);
-			nn_in[1] = Data_t(game.getBall().getX() * 640 / 256);
-			nn_in[2] = Data_t(game.getBall().getY() * 480 / 256);
-			nn_in[3] = Data_t(game.getPaddleP1().getY() * 480 / 256);
-			nn_in[4] = Data_t(game.getPaddleP2().getY() * 480 / 256);
+			nn_in[0] = Data_t(game.getBall().getDirection() * 256 / 3600 - 128);
+			nn_in[1] = Data_t(game.getBall().getX() * 256 / 640 - 128);
+			nn_in[2] = Data_t(game.getBall().getY() * 256 / 480 - 128);
+			nn_in[3] = Data_t(game.getPaddleP1().getY() * 256 / 480 - 128);
+			nn_in[4] = Data_t(game.getPaddleP2().getY() * 256 / 480 - 128);
 
 			nn_outP1 = nnP1.compute(nn_in);
 			nn_outP2 = nnP2.compute(nn_in);

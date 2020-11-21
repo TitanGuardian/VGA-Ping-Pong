@@ -1,11 +1,12 @@
 #pragma once
 
 #include<cstdint>
+#include<vector>
 
 template<int Bits>
 class Fract_N_bit {
 	struct data_t {
-		uint64_t data : Bits;
+		int64_t data : Bits;
 
 		data_t(uint64_t vl) {
 			data = vl;
@@ -16,19 +17,19 @@ class Fract_N_bit {
 	};
 	data_t data; // Bits-bit bit-field :)
 public:
-	static const int64_t MAX=(((uint64_t)1 << (Bits)) - 1);
-	static const int64_t MIN=(0);
-	static const int64_t RND = (1<<(Bits-1));
+	static const uint64_t MAX = (((uint64_t)1 << (Bits - 1)) - 1);
+	static const uint64_t MIN = ((uint64_t)(int64_t(-1)) << (Bits - 1));
+	static const int64_t RND = (1 << (Bits - 2));
 	Fract_N_bit(int64_t value) {
-		if (value > int64_t(MAX)) 
+		if (value > int64_t(MAX))
 			data = MAX;
-		else if (value < int64_t(MIN)) 
+		else if (value < int64_t(MIN))
 			data = MIN;
-		else 
+		else
 			data = value;
 	}
 	Fract_N_bit(const Fract_N_bit&) = default;
-	Fract_N_bit& operator=(const Fract_N_bit& second) {
+	Fract_N_bit& operator=(const Fract_N_bit & second) {
 		this->data = second.data;
 		return *this;
 	}
@@ -36,43 +37,56 @@ public:
 	operator int() {
 		return int(data.data);
 	}
-	Fract_N_bit operator* (const Fract_N_bit& second) const {
+	Fract_N_bit operator* (const Fract_N_bit & second) const {
 		int64_t first_op = this->data.data;
 		int64_t second_op = second.data.data;
 		int64_t res = (first_op * second_op);
-		res = (res + RND) >> (Bits); // rounding ASYM
+		res = (res + RND) >> (Bits - 1); // rounding ASYM
 		return res;
 	}
-	Fract_N_bit operator+ (const Fract_N_bit& second) const {
+	Fract_N_bit operator+ (const Fract_N_bit & second) const {
 		int64_t first_op = this->data.data;
 		int64_t second_op = second.data.data;
 		int64_t res = (first_op + second_op);
 		return res;
 	}
-	Fract_N_bit operator- (const Fract_N_bit& second) const {
+	Fract_N_bit operator- (const Fract_N_bit & second) const {
 		int64_t first_op = this->data.data;
 		int64_t second_op = second.data.data;
 		int64_t res = (first_op - second_op);
 		return res;
 	}
-	Fract_N_bit MUL_ACC (const Fract_N_bit& first, const Fract_N_bit& second) const {
+	Fract_N_bit MUL_ACC(const Fract_N_bit & first, const Fract_N_bit & second) const {
 		int64_t sum_op = this->data.data;
 		int64_t first_op = first.data.data;
 		int64_t second_op = second.data.data;
-		sum_op <<= (Bits);
-		int64_t res = (first_op * second_op)+sum_op;
-		res = (res + RND) >> (Bits); // rounding ASYM
+		sum_op <<= (Bits - 1);
+		int64_t res = (first_op * second_op) + sum_op;
+		res = (res + RND) >> (Bits - 1); // rounding ASYM
 		return res;
 	}
-	void MUL_ADD_ACC(const Fract_N_bit& first, const Fract_N_bit& second, const Fract_N_bit& third) {
+	void MUL_ADD_ACC(const Fract_N_bit & first, const Fract_N_bit & second, const Fract_N_bit & third) {
 		int64_t sum_op = this->data.data;
 		int64_t first_op = first.data.data;
 		int64_t second_op = second.data.data;
 		int64_t third_op = third.data.data;
-		sum_op <<= (Bits);
-		third_op <<= (Bits);
+		sum_op <<= (Bits - 1);
+		third_op <<= (Bits - 1);
 		int64_t res = (first_op * second_op) + third_op + sum_op;
-		res = (res + RND) >> (Bits); // rounding ASYM
+		res = (res + RND) >> (Bits - 1); // rounding ASYM
 		*this = Fract_N_bit(res);
+	}
+	static Fract_N_bit MUL_ADD_ACC_vec(const std::vector<Fract_N_bit>& first, const std::vector<Fract_N_bit>& second, const Fract_N_bit& bias) {
+		_ASSERT(first.size()==second.size());
+		int64_t acc=0;
+		for (int i = 0; i < first.size(); ++i) {
+			int64_t first_op = first[i].data.data;
+			int64_t second_op = second[i].data.data;
+			acc += first_op * second_op;
+		}
+		int64_t sum_op = bias.data.data;
+		sum_op <<= (Bits);
+		acc = (acc+ sum_op + RND) >> (Bits); // rounding ASYM
+		return acc;
 	}
 };

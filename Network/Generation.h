@@ -13,8 +13,8 @@ struct Generation {
 	int epoch;
 	std::vector<Agent> agents;
 	int mutationRate = 25; // range 0-999
-	void evalAsP1(const NeuralNetwork_info player2);
-	void evalAsP2(const NeuralNetwork_info player1);
+	void evalAsP1(const Generation& opposite);
+	void evalAsP2(const Generation& opposite);
 
 	Generation(int size);
 	Generation(const Generation&);

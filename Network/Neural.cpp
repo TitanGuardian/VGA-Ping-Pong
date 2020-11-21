@@ -1,5 +1,6 @@
 #include "Neural.h"
 #include <algorithm>
+#include "Fract_N_bit.h"
 
 #define ARGMAX(vec) (static_cast<int>(std::distance(vec.begin(), max_element(vec.begin(), vec.end()))));
 
@@ -38,11 +39,9 @@ Input Layer::compute(const Input& input) {
 }
 
 Data_t Neuron::compute(const Input& input) {
-	Data_t sum(0);
-	for (int i = 0; i < input.size(); ++i) {
-		sum.MUL_ADD_ACC(this->values.weights[i], input[i], this->values.bias);
-	}
-	return sum; 
+	Data_t res = Data_t::MUL_ADD_ACC_vec(input, this->values.weights, this->values.bias);
+	if (res < 0) return 0;
+	else return res;
 }
 
 Neuron_info::Neuron_info() : bias(0) {}
@@ -60,7 +59,7 @@ NeuralNetwork_info random_NN() {
 	// l1
 	for (int i = 0; i < l2_is; i++) {
 		Neuron_info ni;
-		ni.bias = ((int)rand() % 256);
+		ni.bias = Data_t((rand() % 256) - 128);
 		for (int j = 0; j < l1_is; ++j) {
 			ni.weights.push_back(Data_t(((int)rand() % 256)));
 		}
@@ -70,9 +69,9 @@ NeuralNetwork_info random_NN() {
 	//l2
 	for (int i = 0; i < out_size; i++) {
 		Neuron_info ni;
-		ni.bias = ((int)rand() % 256);
+		ni.bias = Data_t((rand() % 256) - 128);
 		for (int j = 0; j < l2_is; ++j) {
-			ni.weights.push_back(Data_t(((int)rand() % 256)));
+			ni.weights.push_back(Data_t(((int)rand() % 256 - 128)));
 		}
 		l2.push_back(ni);
 	}
