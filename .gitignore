@@ -8,3 +8,10 @@
 /**/*.user
 *.user
 *.bak
+*.out
+/HDL/output_files
+/HDL/incremental_db
+/HDL/db
+*.vcd
+/HDL/source/testbench.v
+/simulation

@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
+
 
 void Generation::evalAsP1(const Generation& opposite) {
 	for (int i = 0; i < size; ++i) {
@@ -122,7 +125,6 @@ void Generation::save(std::string fileName) {
 		}
 		file << "\n";
 	}
-
 	file.close();
 }
 
@@ -157,6 +159,13 @@ void Generation::nextEpoch() {
 	std::vector<Agent> Parents{ agents.at(0),
 								agents.at(1),
 								agents.at(2),
+								agents.at(3),
+								agents.at(4),
+								agents.at(5),
+								agents.at(6),
+								agents.at(7),
+								agents.at(8),
+								agents.at(9),
 								};
 	// clone top 5
 	for (int i = 5; i < agents.size(); ++i) {

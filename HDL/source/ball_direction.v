@@ -44,6 +44,9 @@ module ball_direction  (
 	
 	assign direction_out = direction;
 	
+    initial direction = 4;
+    initial cnt = 0;
+    
 	always @(posedge clk) begin
 		if (cnt==29) cnt<=0;
 		else cnt <= cnt+4'd1;

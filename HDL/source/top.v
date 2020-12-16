@@ -3,7 +3,8 @@ module top(
 	input			clk_50,					// 50 MHz / 20 ns
 	input       wire [3:0] sw,
    input       wire [3:0] key,
-    
+	
+   output		wire [7:0] leds, 
 	output		red, green, blue,		// VGA color outputs
 	output		hsync, vsync			// VGA sync outputs
 );
@@ -21,7 +22,7 @@ module top(
 	
 	reg		counter_reset = 1'b0;
 	reg		reset = 1'b0;
-
+	
 	vga vga_gen(
 		.clk(clk_50),
 		.reset(reset),
@@ -54,13 +55,31 @@ module top(
 	 wire goal_p1, goal_p2;
 	 wire [4:0]reset_cd;
 	 
+	 
+
+	 //nn
+	 wire clk_nn;
+	 reg [4:0] cnt_nn;
+	 
+	 assign clk_nn = frame_tick;//cnt_nn[4];
+	 assign leds[7] = ~clk_nn;
+	 always @ (posedge frame_tick) begin
+	     cnt_nn = cnt_nn + 1;
+	 end
+	 
+	 wire nn_p1_up;
+	 wire nn_p1_down;
+	 wire nn_p1_stay;
+	 assign leds[4] = ~nn_p1_up;
+	 assign leds[3] = ~nn_p1_stay;
+	 assign leds[2] = ~nn_p1_down;
     // game_input
     wire game_rst = sw[3] || (goal_p1|goal_p2)&&(reset_cd<=1);
-	 wire player1_move_up = ~key[3];
-	 wire player1_move_down = ~key[2];
+	 wire player1_move_up = nn_p1_up; //(!sw[1]&~key[3])||(sw[1]&&nn_p1_up);
+	 wire player1_move_down = nn_p1_down;//(!sw[1]&~key[2])||(sw[1]&&nn_p1_down);
 	 wire player2_move_up = ~key[1];
 	 wire player2_move_down = ~key[0];
-    
+
 
 	 // ball
     wire signed [12:0] movespeed;
@@ -206,6 +225,20 @@ module top(
 		  .goal_p2(goal_p2),
 		  .cool(reset_cd),
 		  .move_speed(movespeed)
+	 );
+	 
+	 neural_p1 nn_p1(
+		  .clk(clk_nn),
+		  .clk_mul(pixel_tick),
+		  .direction(direction),
+		  .ball_x(ball_x_extended),
+		  .ball_y(ball_y_extended),
+		  .p1_y(p1_y_extended),
+		  .p2_y(p2_y_extended),
+		  .up(nn_p1_up),
+		  .down(nn_p1_down),
+		  .stay(nn_p1_stay),
+		  .test(leds[0])
 	 );
 	 
 

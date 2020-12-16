@@ -1,6 +1,12 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <thread>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+
 #include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
@@ -17,8 +23,7 @@
 //extern "C" int test_auto();
 //extern "C" int test_controller();
 
-#include <thread>
-#include <string>
+
 Game* volatile renderingGame;
 
 const char* font = "media/bitstream_vera/vera.ttf";
@@ -169,6 +174,41 @@ int main(int argc, char** argv) {
 	genP1.printScores();
 	genP2.printScores();
 
+	std::ofstream file;
+	file.open("nn1_hdl.txt");
+	for (auto& layer : genP1.agents[0].info) {
+		for (auto& neuron : layer) {
+			for (auto& weight : neuron.weights) {
+				std::stringstream ss;
+				ss << std::setfill('0') << std::setw(sizeof(int) * 2) << std::hex << weight;
+				std::string result(ss.str());
+				file << result << "\n";
+			}
+			std::stringstream ss;
+			ss << std::setfill('0') << std::setw(sizeof(int) * 2) << std::hex << neuron.bias;
+			std::string result(ss.str());
+			file << result << "\n";
+		}
+	}
+	file.close();
+
+	file.open("nn2_hdl.txt");
+	for (auto& layer : genP2.agents[0].info) {
+		for (auto& neuron : layer) {
+			for (auto& weight : neuron.weights) {
+				std::stringstream ss;
+				ss << std::setfill('0') << std::setw(sizeof(int) * 2) << std::hex << weight;
+				std::string result(ss.str());
+				file << result << "\n";
+			}
+			std::stringstream ss;
+			ss << std::setfill('0') << std::setw(sizeof(int) * 2) << std::hex << neuron.bias;
+			std::string result(ss.str());
+			file << result << "\n";
+		}
+	}
+	file.close();
+
 	NeuralNetwork nnP1(genP1.agents[0].info,5), nnP2(genP2.agents[0].info, 5);
 
 	std::thread thread(window_thread);
@@ -197,13 +237,13 @@ int main(int argc, char** argv) {
 			default: throw;
 			}
 
-			switch (nn_outP2)
-			{
-			case 0: game.onInputP2(-1); break;
-			case 1: game.onInputP2(0); break;
-			case 2: game.onInputP2(1); break;
-			default: throw;
-			}
+			//switch (nn_outP2)
+			//{
+			//case 0: game.onInputP2(-1); break;
+			//case 1: game.onInputP2(0); break;
+			//case 2: game.onInputP2(1); break;
+			//default: throw;
+			//}
 
 			game.update();
 			//LOG_SCORE(game);
@@ -214,5 +254,8 @@ int main(int argc, char** argv) {
 	}
 
 	thread.join();
+
+
+
 	return 0;
 }

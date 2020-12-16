@@ -85,8 +85,8 @@ public:
 			acc += first_op * second_op;
 		}
 		int64_t sum_op = bias.data.data;
-		sum_op <<= (Bits);
-		acc = (acc+ sum_op + RND) >> (Bits); // rounding ASYM
+		sum_op <<= (Bits-1);
+		acc = (acc+ sum_op) >> (Bits-1); // rounding ASYM
 		return acc;
 	}
 };
