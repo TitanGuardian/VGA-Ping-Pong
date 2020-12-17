@@ -47,19 +47,13 @@ module
     initial counter=0;
     
 	 always @(posedge clk) begin
-		 if (counter==12) begin
+		 if (counter==9) begin
 				counter<=0;
-				if (l[0]>=l[2]&&l[0]>=l[1]) begin
+				if (l[0]>=l[2]) begin
 					up <= 1;
 					stay <= 0;
 					down <= 0;
 				end
-				else
-				if (l[1]>=l[0]&&l[1]>=l[2]) begin
-					up <= 0;
-					stay <= 1;
-					down <= 0;
-				end 
 				else begin
 					up <= 0;
 					stay <= 0;
@@ -67,7 +61,7 @@ module
 				end
 		 end
 		 else begin
-				if (counter>=12) counter <= 0;
+				if (counter>=9) counter <= 0;
 				else counter <= counter + 1;
 		 end
 
@@ -76,25 +70,37 @@ module
 	 
 
 	 
-	always @(posedge clk) begin
+	always @(negedge clk) begin
 		if (counter<8) begin
 			n[counter] = (mem[counter*6+0]*i[0]+mem[counter*6+1]*i[1]+mem[counter*6+2]*i[2]
 					+mem[counter*6+3]*i[3]+mem[counter*6+4]*i[4]+(mem[counter*6+5]<<<7))>>>7;
 			if (n[counter]<0) n[counter]=0;
 			else if (n[counter]>127) n[counter]=127;
 		end
-		else if (counter<11) begin
-			l[counter-8] = (mem[8*6+(counter-8)*9+0]*n[0]
-								+mem[8*6+(counter-8)*9+1]*n[1]
-								+mem[8*6+(counter-8)*9+2]*n[2]
-								+mem[8*6+(counter-8)*9+3]*n[3]
-								+mem[8*6+(counter-8)*9+4]*n[4]
-								+mem[8*6+(counter-8)*9+5]*n[5]
-								+mem[8*6+(counter-8)*9+6]*n[6]
-								+mem[8*6+(counter-8)*9+7]*n[7]
-								+(mem[8*6+(counter-8)*9+8]<<7))>>>7;
-			if (l[counter-8]<0) l[counter-8]=0;
-			else if (l[counter-8]>127) l[counter-8]=127;
+		else if (counter==8) begin
+			l[0] = (mem[8*6+0]*n[0]
+								+mem[8*6+1]*n[1]
+								+mem[8*6+2]*n[2]
+								+mem[8*6+3]*n[3]
+								+mem[8*6+4]*n[4]
+								+mem[8*6+5]*n[5]
+								+mem[8*6+6]*n[6]
+								+mem[8*6+7]*n[7]
+								+(mem[8*6+8]<<<7))>>>7;
+			if (l[0]<0) l[0]=0;
+			else if (l[0]>127) l[0]=127;
+			
+			l[2] =         (mem[8*6+(2)*9+0]*n[0]
+								+mem[8*6+(2)*9+1]*n[1]
+								+mem[8*6+(2)*9+2]*n[2]
+								+mem[8*6+(2)*9+3]*n[3]
+								+mem[8*6+(2)*9+4]*n[4]
+								+mem[8*6+(2)*9+5]*n[5]
+								+mem[8*6+(2)*9+6]*n[6]
+								+mem[8*6+(2)*9+7]*n[7]
+								+(mem[8*6+(2)*9+8]<<<7))>>>7;
+			if (l[2]<0) l[2]=0;
+			else if (l[2]>127) l[2]=127;
 		end
 	end
 	 

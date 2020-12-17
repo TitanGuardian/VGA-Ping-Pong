@@ -27,7 +27,7 @@ int NeuralNetwork::compute(const Input& input) {
 	for (auto& layer : this->layers) {
 		current_computation = layer.compute(current_computation);
 	}
-	return ARGMAX(current_computation);
+	return (current_computation[0]>= current_computation[2]?0:2);
 }
 
 Input Layer::compute(const Input& input) {
