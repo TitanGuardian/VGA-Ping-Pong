@@ -140,8 +140,8 @@ module top(
     assign p1_x = p1_x_extended[12:2];
     assign p1_y = p1_y_extended[12:2];
     
-    localparam paddle_width=3;
-    localparam paddle_height=56;
+    localparam paddle_width=4;
+    localparam paddle_height=70;
 	 
     rectangle #(.size_y(paddle_height),.size_x(paddle_width)) p1(
             .x(p1_x), 

@@ -13,7 +13,7 @@ module ball_move  (
 		 output wire [12:0] y_out,
 		 output wire [12:0] ms
 	);
-   parameter move_speed=7;
+   parameter move_speed=6;
 	
 	reg [12:0] x;
 	reg [12:0] y;

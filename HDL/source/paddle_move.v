@@ -13,7 +13,7 @@ module paddle_move  (
 		 output wire [12:0] x_out,
 		 output wire [12:0] y_out
 	);
-   wire [12:0] move_speed= 13'd12;
+   wire [12:0] move_speed= 13'd16;
 	
 	reg [12:0] x;
 	reg [12:0] y;
